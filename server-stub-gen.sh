@@ -1,1 +1,1 @@
-java -jar /Users/mc142/Documents/workspace/Tools/openapi/swagger-codegen-cli.jar generate -i swagger.json -l spring --api-package edu.gatech.chai.pacer.api --model-package edu.gatech.chai.pacer.model --group-id edu.gatech.chai --artifact-id pacer-index-api --artifact-version 0.0.1-SNAPSHOT -o ./
+java -jar ../../Tools/openapi/swagger-codegen-cli.jar generate -i swagger.json -l spring --api-package edu.gatech.chai.pacer.api --model-package edu.gatech.chai.pacer.model --group-id edu.gatech.chai --artifact-id pacer-index-api --artifact-version 0.0.1-SNAPSHOT -o ./
