@@ -23,6 +23,7 @@
 #!docs/README.md
 #
 pom.xml
+README.md
 src/main/resources/application.properties
 src/main/java/io/**/SwaggerDocumentationConfig.java
 src/main/java/io/swagger/Swagger2SpringBoot.java
