@@ -41,7 +41,7 @@
         }, {
           "in" : "query",
           "name" : "organization-id",
-          "description" : "Organization ID Set (Type:Id)",
+          "description" : "Organization ID Set (Type|Id)",
           "required" : false,
           "schema" : {
             "type" : "string"
@@ -290,7 +290,7 @@
           },
           "identifier" : {
             "type" : "string",
-            "example" : "type:id"
+            "example" : "type|id"
           },
           "pacerSource" : {
             "$ref" : "#/components/schemas/PacerSource"
