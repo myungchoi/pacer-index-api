@@ -14,7 +14,7 @@ import javax.validation.constraints.*;
  * Organization
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-02-26T15:28:40.714830-05:00[America/New_York]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-02-26T16:50:41.046686-05:00[America/New_York]")
 public class Organization   {
   @JsonProperty("id")
   private Integer id = null;
@@ -76,7 +76,7 @@ public class Organization   {
    * Get identifier
    * @return identifier
   **/
-  @ApiModelProperty(example = "type:id", required = true, value = "")
+  @ApiModelProperty(example = "type|id", required = true, value = "")
   @NotNull
 
   public String getIdentifier() {

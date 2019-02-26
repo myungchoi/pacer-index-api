@@ -1,4 +1,4 @@
-package edu.gatech.chai.pacer.dao;
+package edu.gatech.chai.pacer.security;
 
 import java.io.IOException;
 
