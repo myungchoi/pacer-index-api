@@ -297,6 +297,23 @@
           }
         }
       },
+      "SecurityForPacer" : {
+        "type" : "object",
+        "properties" : {
+          "type" : {
+            "type" : "string",
+            "example" : "basic"
+          },
+          "username" : {
+            "type" : "string",
+            "example" : "username or token if type is OAuth2"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "password"
+          }
+        }
+      },
       "PacerSource" : {
         "type" : "object",
         "required" : [ "name", "serverUrl" ],
@@ -311,13 +328,7 @@
             "example" : "https://apps.hdap.gatech.edu/pacer/"
           },
           "security" : {
-            "type" : "object",
-            "example" : {
-              "type" : "basic",
-              "username" : "username",
-              "password" : "password"
-            },
-            "description" : "place holder for future security model sepcification for FHIR server"
+            "$ref" : "#/components/schemas/SecurityForPacer"
           },
           "version" : {
             "type" : "string",
