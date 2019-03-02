@@ -35,6 +35,8 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 		String user = System.getenv("BASIC_AUTH_USER");
 		String pass = System.getenv("BASIC_AUTH_PASSWORD");
 
+		if (user == null) user = "user";
+		if (pass == null) pass = "password";
 		auth.inMemoryAuthentication().withUser(user).password(pass).roles("USER", "ADMIN");
 	}
 

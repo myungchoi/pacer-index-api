@@ -4,6 +4,7 @@ import java.util.Objects;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
+import edu.gatech.chai.pacer.model.SecurityForPacer;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.validation.annotation.Validated;
@@ -14,7 +15,7 @@ import javax.validation.constraints.*;
  * PacerSource
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-02-26T16:50:41.046686-05:00[America/New_York]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-01T16:08:08.392540-05:00[America/New_York]")
 public class PacerSource   {
   @JsonProperty("name")
   private String name = null;
@@ -23,7 +24,7 @@ public class PacerSource   {
   private String serverUrl = null;
 
   @JsonProperty("security")
-  private Object security = null;
+  private SecurityForPacer security = null;
 
   @JsonProperty("version")
   private String version = null;
@@ -101,22 +102,23 @@ public class PacerSource   {
     this.serverUrl = serverUrl;
   }
 
-  public PacerSource security(Object security) {
+  public PacerSource security(SecurityForPacer security) {
     this.security = security;
     return this;
   }
 
   /**
-   * place holder for future security model sepcification for FHIR server
+   * Get security
    * @return security
   **/
-  @ApiModelProperty(example = "{\"type\":\"basic\",\"username\":\"username\",\"password\":\"password\"}", value = "place holder for future security model sepcification for FHIR server")
+  @ApiModelProperty(value = "")
 
-  public Object getSecurity() {
+  @Valid
+  public SecurityForPacer getSecurity() {
     return security;
   }
 
-  public void setSecurity(Object security) {
+  public void setSecurity(SecurityForPacer security) {
     this.security = security;
   }
 
