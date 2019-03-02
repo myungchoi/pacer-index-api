@@ -28,8 +28,8 @@
       "get" : {
         "tags" : [ "developers" ],
         "summary" : "searches indexes",
-        "operationId" : "searchDecedent",
-        "description" : "By passing in the appropriate options, you can search for decedent indexes\n",
+        "operationId" : "searchOrganization",
+        "description" : "By passing in the appropriate options, you can search for PACER indexes for the organization\n",
         "parameters" : [ {
           "in" : "query",
           "name" : "organization-name",
@@ -297,23 +297,6 @@
           }
         }
       },
-      "SecurityForPacer" : {
-        "type" : "object",
-        "properties" : {
-          "type" : {
-            "type" : "string",
-            "example" : "basic"
-          },
-          "username" : {
-            "type" : "string",
-            "example" : "username or token if type is OAuth2"
-          },
-          "password" : {
-            "type" : "string",
-            "example" : "password"
-          }
-        }
-      },
       "PacerSource" : {
         "type" : "object",
         "required" : [ "name", "serverUrl" ],
@@ -328,7 +311,13 @@
             "example" : "https://apps.hdap.gatech.edu/pacer/"
           },
           "security" : {
-            "$ref" : "#/components/schemas/SecurityForPacer"
+            "type" : "object",
+            "example" : {
+              "type" : "basic",
+              "username" : "username",
+              "password" : "password"
+            },
+            "description" : "place holder for future security model sepcification for FHIR server"
           },
           "version" : {
             "type" : "string",
