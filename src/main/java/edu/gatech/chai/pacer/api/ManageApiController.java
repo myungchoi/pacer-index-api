@@ -29,19 +29,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.constraints.*;
 import javax.validation.Valid;
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
 import java.net.URI;
-import java.util.List;
-import java.util.Map;
 
 @javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-02-26T15:28:40.714830-05:00[America/New_York]")
 @Controller
@@ -66,14 +58,14 @@ public class ManageApiController implements ManageApi {
 			@ApiParam(value = "Organization info to add") @Valid @RequestBody Organization body) {
 		String accept = request.getHeader("Accept");
 
-		Organization existingOrg = pacerDao.getByIdentifier(body.getIdentifier());
-		if (existingOrg != null) {
+		Organizations existingOrgs = pacerDao.getByIdentifier(body.getIdentifier());
+		if (existingOrgs.getCount() > 0) {
 			// This is error.
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
 		}
 
 		if (body.getId() != null && body.getId() > 0) {
-			existingOrg = pacerDao.getById(body.getId());
+			Organization existingOrg = pacerDao.getById(body.getId());
 			if (existingOrg != null) {
 				existingOrg.setName(body.getName());
 				existingOrg.setIdentifier(body.getIdentifier());
