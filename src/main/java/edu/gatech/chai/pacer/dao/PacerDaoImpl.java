@@ -66,7 +66,7 @@ public class PacerDaoImpl implements PacerDao {
 	private int getPacerSourceId(PacerSource pacerSource) {
 		int retv = 0;
 
-		String sql = "SELECT * FROM pacer_source where name=? and serverUrl=? and type=?";
+		String sql = "SELECT * FROM pacer_source WHERE name=? and serverUrl=? and type=?";
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, pacerSource.getName());
 			pstmt.setString(2, pacerSource.getServerUrl());
@@ -106,7 +106,7 @@ public class PacerDaoImpl implements PacerDao {
 			} else {
 				pstmt.setString(5, null);
 			}
-			
+
 			if (pstmt.executeUpdate() > 0) {
 				// Retrieves any auto-generated keys created as a result of executing this
 				// Statement object
@@ -160,7 +160,7 @@ public class PacerDaoImpl implements PacerDao {
 
 	private void orphanDelete() {
 		String sql = "DELETE FROM pacer_source WHERE NOT EXISTS (SELECT * FROM organization o WHERE o.pacer_source_id = pacer_source.id)";
-	
+
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.executeUpdate();
 
@@ -172,7 +172,7 @@ public class PacerDaoImpl implements PacerDao {
 
 	@Override
 	public void update(Organization organization) {
-		String sql = "UPDATE organization SET name=?, identifier=?, pacer_source_id=? where id=?";
+		String sql = "UPDATE organization SET name=?, identifier=?, pacer_source_id=? WHERE id=?";
 
 		// First get the pacer_source_id.
 		PacerSource pacerSource = organization.getPacerSource();
@@ -196,7 +196,7 @@ public class PacerDaoImpl implements PacerDao {
 
 	@Override
 	public void delete(Integer id) {
-		String sql = "DELETE FROM organization where id = ?";
+		String sql = "DELETE FROM organization WHERE id = ?";
 
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, id);
@@ -205,13 +205,13 @@ public class PacerDaoImpl implements PacerDao {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 		orphanDelete();
 	}
 
-	private PacerSource getPacerSourceById (Integer id) {
+	private PacerSource getPacerSourceById(Integer id) {
 		PacerSource pacerSource = new PacerSource();
-		String sql = "SELECT * FROM pacer_source where id=?";
+		String sql = "SELECT * FROM pacer_source WHERE id=?";
 
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setInt(1, id);
@@ -228,7 +228,7 @@ public class PacerDaoImpl implements PacerDao {
 					pacerSource.setSecurity(securityObject);
 				}
 			}
-			logger.info("Pacer Rsource ("+id+") data obtained");
+			logger.info("Pacer Rsource (" + id + ") data obtained");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} catch (JsonParseException e) {
@@ -244,14 +244,14 @@ public class PacerDaoImpl implements PacerDao {
 
 		return pacerSource;
 	}
-	
+
 	private Organization setOrganizationData(ResultSet rs) throws SQLException {
 		Organization organization = new Organization();
 		organization.setId(rs.getInt("id"));
 		organization.setName(rs.getString("name"));
 		organization.setIdentifier(rs.getString("identifier"));
 		organization.setPacerSource(getPacerSourceById(rs.getInt("pacer_source_id")));
-		
+
 		return organization;
 	}
 
@@ -272,7 +272,7 @@ public class PacerDaoImpl implements PacerDao {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
-		
+
 		organizations.setList(organizationList);
 		organizations.setCount(organizationList.size());
 		organizations.setCreated(OffsetDateTime.now());
@@ -283,7 +283,7 @@ public class PacerDaoImpl implements PacerDao {
 	@Override
 	public Organization getById(Integer id) {
 		Organization organization = null;
-		String sql = "SELECT * FROM organization where id = ?";
+		String sql = "SELECT * FROM organization WHERE id = ?";
 
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setLong(1, id);
@@ -300,41 +300,79 @@ public class PacerDaoImpl implements PacerDao {
 	}
 
 	@Override
-	public Organization getByName(String name) {
-		Organization organization = null;
-		String sql = "SELECT * FROM organization where name = ?";
+	public Organizations getByName(String name) {
+		Organizations organizations = new Organizations();
+		List<Organization> orgList = new ArrayList<Organization>();
+		
+		String sql = "SELECT * FROM organization WHERE name = ?";
 
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, name);
 			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
-				organization = setOrganizationData(rs);
+			while (rs.next()) {
+				orgList.add(setOrganizationData(rs));
 			}
+			
+			organizations.setList(orgList);
+			organizations.setCount(orgList.size());
+			organizations.setCreated(OffsetDateTime.now());
 			logger.info("organization (" + name + ") selected");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 
-		return organization;
+		return organizations;
 	}
 
 	@Override
-	public Organization getByIdentifier(String identifier) {
-		Organization organization = null;
-		String sql = "SELECT * FROM organization where identifier = ?";
+	public Organizations getByIdentifier(String identifier) {
+		Organizations organizations = new Organizations();
+		List<Organization> orgList = new ArrayList<Organization>();
+		
+		String sql = "SELECT * FROM organization WHERE identifier = ?";
 
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, identifier);
 			ResultSet rs = pstmt.executeQuery();
-			if (rs.next()) {
-				organization = setOrganizationData(rs);
+			while (rs.next()) {
+				orgList.add(setOrganizationData(rs));
 			}
+			
+			organizations.setList(orgList);
+			organizations.setCount(orgList.size());
+			organizations.setCreated(OffsetDateTime.now());
 			logger.info("organization with identifier= (" + identifier + ") selected");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
 
-		return organization;
+		return organizations;
+	}
+
+	@Override
+	public Organizations getByNameAndIdentifier(String name, String identifier) {
+		Organizations organizations = new Organizations();
+		List<Organization> orgList = new ArrayList<Organization>();
+		
+		String sql = "SELECT * FROM organization where name = ? AND identifier = ?";
+
+		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+			pstmt.setString(1, name);
+			pstmt.setString(2, identifier);
+			ResultSet rs = pstmt.executeQuery();
+			while (rs.next()) {
+				orgList.add(setOrganizationData(rs));
+			}
+			
+			organizations.setList(orgList);
+			organizations.setCount(orgList.size());
+			organizations.setCreated(OffsetDateTime.now());
+			logger.info("organization with name= (" + name + "), identifier= (" + identifier + ") selected");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
+
+		return organizations;
 	}
 
 }

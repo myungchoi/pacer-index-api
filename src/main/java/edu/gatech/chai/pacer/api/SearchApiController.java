@@ -15,12 +15,15 @@
  *******************************************************************************/
 package edu.gatech.chai.pacer.api;
 
+import edu.gatech.chai.pacer.dao.PacerDaoImpl;
 import edu.gatech.chai.pacer.model.Organizations;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -29,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
+import org.threeten.bp.OffsetDateTime;
 
 import javax.validation.constraints.*;
 import javax.validation.Valid;
@@ -46,6 +50,9 @@ public class SearchApiController implements SearchApi {
 
     private final HttpServletRequest request;
 
+	@org.springframework.beans.factory.annotation.Autowired
+	private PacerDaoImpl pacerDao;
+
     @org.springframework.beans.factory.annotation.Autowired
     public SearchApiController(ObjectMapper objectMapper, HttpServletRequest request) {
         this.objectMapper = objectMapper;
@@ -54,7 +61,26 @@ public class SearchApiController implements SearchApi {
 
     public ResponseEntity<Organizations> searchDecedent(@ApiParam(value = "Name of Organization") @Valid @RequestParam(value = "organization-name", required = false) String organizationName,@ApiParam(value = "Organization ID Set (Type:Id)") @Valid @RequestParam(value = "organization-id", required = false) String organizationId) {
         String accept = request.getHeader("Accept");
-        return new ResponseEntity<Organizations>(HttpStatus.NOT_IMPLEMENTED);
+        
+        Organizations organizations = null;
+        
+        if (organizationName != null && organizationId != null) {
+        	organizations = pacerDao.getByNameAndIdentifier(organizationName, organizationId);
+        } else if (organizationName != null) {
+        	organizations = pacerDao.getByName(organizationName);
+        } else if (organizationId != null) {
+        	organizations = pacerDao.getByIdentifier(organizationId);
+        } else {
+        	// both are null. Since both are optional. We return empty organizations.
+        	organizations = new Organizations();
+        	organizations.setCount(0);
+        	organizations.setCreated(OffsetDateTime.now());
+        }
+        
+		HttpHeaders headers = new HttpHeaders();
+		headers.setContentType(MediaType.APPLICATION_JSON);
+
+        return new ResponseEntity<Organizations>(organizations, headers, HttpStatus.OK);
     }
 
 }
