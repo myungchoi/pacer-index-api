@@ -183,7 +183,7 @@ public class PacerDaoImpl implements PacerDao {
 			pstmt.setString(1, organization.getProviderName());
 			pstmt.setString(2, organization.getIdentifier());
 			pstmt.setInt(3, pacerSourceId);
-			pstmt.setInt(5, organization.getId());
+			pstmt.setInt(4, organization.getId());
 			pstmt.executeUpdate();
 
 			logger.info("Organization data (" + organization.getId() + ") updated.");
