@@ -140,7 +140,7 @@ public class ManageApiController implements ManageApi {
 		
 		Organization organization = pacerDao.getById(id);
 		if (organization == null) {
-			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 		} else {
 			pacerDao.update(body);
 			return new ResponseEntity<Void>(HttpStatus.OK);

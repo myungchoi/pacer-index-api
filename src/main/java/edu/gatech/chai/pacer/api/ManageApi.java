@@ -23,7 +23,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-07T13:18:42.304931-05:00[America/New_York]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-07T17:45:31.984763-05:00[America/New_York]")
 @Api(value = "manage", description = "the manage API")
 public interface ManageApi {
 
@@ -53,7 +53,8 @@ public interface ManageApi {
     @ApiOperation(value = "get a organization by ID", nickname = "getOrganization", notes = "", response = Organization.class, authorizations = {
         @Authorization(value = "basicAuth")    }, tags={  })
     @ApiResponses(value = { 
-        @ApiResponse(code = 200, message = "a organization", response = Organization.class),
+        @ApiResponse(code = 200, message = "An organization", response = Organization.class),
+        @ApiResponse(code = 204, message = "Content not found"),
         @ApiResponse(code = 400, message = "invalid input, object invalid"),
         @ApiResponse(code = 401, message = "Authentication information is missing or invalid") })
     @RequestMapping(value = "/manage/{id}",
