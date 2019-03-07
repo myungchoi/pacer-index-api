@@ -32,8 +32,8 @@
         "description" : "By passing in the appropriate options, you can search for PACER indexes of the organization\n",
         "parameters" : [ {
           "in" : "query",
-          "name" : "organization-name",
-          "description" : "Name of Organization",
+          "name" : "provider-name",
+          "description" : "Name of Provider",
           "required" : false,
           "schema" : {
             "type" : "string"
