@@ -70,6 +70,7 @@ public class PacerDaoImpl implements PacerDao {
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, pacerSource.getName());
 			pstmt.setString(2, pacerSource.getServerUrl());
+			pstmt.setString(3, pacerSource.getType().toString());
 
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
