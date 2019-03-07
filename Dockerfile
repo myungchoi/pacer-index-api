@@ -2,7 +2,7 @@
 FROM openjdk:8-jdk-alpine as builder
 COPY . /usr/src/app
 WORKDIR /usr/src/app
-RUN ./mvnw package
+RUN ./mvnw clean package
 
 #Build the Tomcat container
 FROM openjdk:8-jdk-alpine
