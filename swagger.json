@@ -32,8 +32,8 @@
         "description" : "By passing in the appropriate options, you can search for PACER indexes of the organization\n",
         "parameters" : [ {
           "in" : "query",
-          "name" : "organization-name",
-          "description" : "Name of Organization",
+          "name" : "provider-name",
+          "description" : "Name of Provider",
           "required" : false,
           "schema" : {
             "type" : "string"
@@ -278,15 +278,15 @@
     "schemas" : {
       "Organization" : {
         "type" : "object",
-        "required" : [ "name", "identifier" ],
+        "required" : [ "identifier" ],
         "properties" : {
           "id" : {
             "type" : "integer",
             "example" : 1
           },
-          "name" : {
+          "providerName" : {
             "type" : "string",
-            "example" : "GTMC"
+            "example" : "Patch Adams"
           },
           "identifier" : {
             "type" : "string",

@@ -22,7 +22,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-02T04:06:31.984276-05:00[America/New_York]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-07T00:31:13.738376-05:00[America/New_York]")
 @Api(value = "search", description = "the search API")
 public interface SearchApi {
 
@@ -33,6 +33,6 @@ public interface SearchApi {
     @RequestMapping(value = "/search",
         produces = { "application/json" }, 
         method = RequestMethod.GET)
-    ResponseEntity<Organizations> searchOrganization(@ApiParam(value = "Name of Organization") @Valid @RequestParam(value = "organization-name", required = false) String organizationName,@ApiParam(value = "Organization ID Set (Type|Id)") @Valid @RequestParam(value = "organization-id", required = false) String organizationId);
+    ResponseEntity<Organizations> searchOrganization(@ApiParam(value = "Name of Provider") @Valid @RequestParam(value = "provider-name", required = false) String providerName,@ApiParam(value = "Organization ID Set (Type|Id)") @Valid @RequestParam(value = "organization-id", required = false) String organizationId);
 
 }
