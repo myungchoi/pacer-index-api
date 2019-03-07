@@ -66,7 +66,7 @@ public class PacerDaoImpl implements PacerDao {
 	private int getPacerSourceId(PacerSource pacerSource) {
 		int retv = 0;
 
-		String sql = "SELECT * FROM pacer_source WHERE name=? and serverUrl=? and type=?";
+		String sql = "SELECT * FROM pacer_source WHERE name=? and server_url=? and type=?";
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 			pstmt.setString(1, pacerSource.getName());
 			pstmt.setString(2, pacerSource.getServerUrl());
@@ -89,7 +89,7 @@ public class PacerDaoImpl implements PacerDao {
 	}
 
 	private int savePacerSource(PacerSource pacerSource) {
-		String sql = "INSERT INTO pacer_source (name, serverUrl, version, type, security) values (?,?,?,?,?)";
+		String sql = "INSERT INTO pacer_source (name, server_url, version, type, security) values (?,?,?,?,?)";
 
 		int insertedId = 0;
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -130,7 +130,7 @@ public class PacerDaoImpl implements PacerDao {
 
 	@Override
 	public int save(Organization organization) {
-		String sql = "INSERT INTO organization (name, identifier, pacer_source_id) values (?,?,?)";
+		String sql = "INSERT INTO organization (provider_name, identifier, pacer_source_id) values (?,?,?)";
 
 		int insertedId = 0;
 		try (Connection conn = this.connect(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -172,7 +172,7 @@ public class PacerDaoImpl implements PacerDao {
 
 	@Override
 	public void update(Organization organization) {
-		String sql = "UPDATE organization SET name=?, identifier=?, pacer_source_id=? WHERE id=?";
+		String sql = "UPDATE organization SET provider_name=?, identifier=?, pacer_source_id=? WHERE id=?";
 
 		// First get the pacer_source_id.
 		PacerSource pacerSource = organization.getPacerSource();
@@ -218,7 +218,7 @@ public class PacerDaoImpl implements PacerDao {
 			ResultSet rs = pstmt.executeQuery();
 			if (rs.next()) {
 				pacerSource.setName(rs.getString("name"));
-				pacerSource.setServerUrl(rs.getString("serverUrl"));
+				pacerSource.setServerUrl(rs.getString("server_url"));
 				pacerSource.setVersion(rs.getString("version"));
 				pacerSource.setType(TypeEnum.valueOf(rs.getString("type")));
 				String securityString = rs.getString("security");
@@ -248,7 +248,7 @@ public class PacerDaoImpl implements PacerDao {
 	private Organization setOrganizationData(ResultSet rs) throws SQLException {
 		Organization organization = new Organization();
 		organization.setId(rs.getInt("id"));
-		organization.setProviderName(rs.getString("name"));
+		organization.setProviderName(rs.getString("provider_name"));
 		organization.setIdentifier(rs.getString("identifier"));
 		organization.setPacerSource(getPacerSourceById(rs.getInt("pacer_source_id")));
 
@@ -367,7 +367,7 @@ public class PacerDaoImpl implements PacerDao {
 			organizations.setList(orgList);
 			organizations.setCount(orgList.size());
 			organizations.setCreated(OffsetDateTime.now());
-			logger.info("organization with name= (" + providerName + "), identifier= (" + identifier + ") selected");
+			logger.info("organization with provider name= (" + providerName + "), identifier= (" + identifier + ") selected");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
