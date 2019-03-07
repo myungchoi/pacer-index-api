@@ -13,7 +13,7 @@ import javax.validation.constraints.*;
  * SecurityForPacer
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-07T00:31:13.738376-05:00[America/New_York]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-07T13:18:42.304931-05:00[America/New_York]")
 public class SecurityForPacer   {
   @JsonProperty("type")
   private String type = null;
