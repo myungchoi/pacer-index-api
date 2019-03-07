@@ -7,5 +7,5 @@ A directory that contains endpoints for PACER(s). This artifact is developed to 
 Change application.properties for port number and context path.
 
 You can view the api documentation in swagger-ui by pointing to  
-http://localhost:8080/  
+http://localhost:8080/pacer-index-api/1.0.0/swagger-ui.html
 
