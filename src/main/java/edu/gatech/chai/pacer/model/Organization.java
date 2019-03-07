@@ -14,13 +14,13 @@ import javax.validation.constraints.*;
  * Organization
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-02T04:06:31.984276-05:00[America/New_York]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-07T00:31:13.738376-05:00[America/New_York]")
 public class Organization   {
   @JsonProperty("id")
   private Integer id = null;
 
-  @JsonProperty("name")
-  private String name = null;
+  @JsonProperty("providerName")
+  private String providerName = null;
 
   @JsonProperty("identifier")
   private String identifier = null;
@@ -47,24 +47,23 @@ public class Organization   {
     this.id = id;
   }
 
-  public Organization name(String name) {
-    this.name = name;
+  public Organization providerName(String providerName) {
+    this.providerName = providerName;
     return this;
   }
 
   /**
-   * Get name
-   * @return name
+   * Get providerName
+   * @return providerName
   **/
-  @ApiModelProperty(example = "GTMC", required = true, value = "")
-  @NotNull
+  @ApiModelProperty(example = "Patch Adams", value = "")
 
-  public String getName() {
-    return name;
+  public String getProviderName() {
+    return providerName;
   }
 
-  public void setName(String name) {
-    this.name = name;
+  public void setProviderName(String providerName) {
+    this.providerName = providerName;
   }
 
   public Organization identifier(String identifier) {
@@ -118,14 +117,14 @@ public class Organization   {
     }
     Organization organization = (Organization) o;
     return Objects.equals(this.id, organization.id) &&
-        Objects.equals(this.name, organization.name) &&
+        Objects.equals(this.providerName, organization.providerName) &&
         Objects.equals(this.identifier, organization.identifier) &&
         Objects.equals(this.pacerSource, organization.pacerSource);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(id, name, identifier, pacerSource);
+    return Objects.hash(id, providerName, identifier, pacerSource);
   }
 
   @Override
@@ -134,7 +133,7 @@ public class Organization   {
     sb.append("class Organization {\n");
     
     sb.append("    id: ").append(toIndentedString(id)).append("\n");
-    sb.append("    name: ").append(toIndentedString(name)).append("\n");
+    sb.append("    providerName: ").append(toIndentedString(providerName)).append("\n");
     sb.append("    identifier: ").append(toIndentedString(identifier)).append("\n");
     sb.append("    pacerSource: ").append(toIndentedString(pacerSource)).append("\n");
     sb.append("}");

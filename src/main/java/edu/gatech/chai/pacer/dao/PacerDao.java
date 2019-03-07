@@ -29,7 +29,7 @@ public interface PacerDao {
 	public void delete(Integer id);
 	public Organizations get();
 	public Organization getById(Integer id);
-	public Organizations getByName(String name);
-	public Organizations getByNameAndIdentifier(String name, String identifier);
+	public Organizations getByProviderName(String providerName);
+	public Organizations getByProviderNameAndIdentifier(String providerName, String identifier);
 	public Organizations getByIdentifier(String identifier);
 }

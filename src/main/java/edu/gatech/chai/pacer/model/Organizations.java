@@ -17,7 +17,7 @@ import javax.validation.constraints.*;
  * Organizations
  */
 @Validated
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-02T04:06:31.984276-05:00[America/New_York]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-07T00:31:13.738376-05:00[America/New_York]")
 public class Organizations   {
   @JsonProperty("count")
   private Integer count = null;

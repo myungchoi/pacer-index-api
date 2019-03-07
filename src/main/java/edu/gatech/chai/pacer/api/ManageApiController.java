@@ -67,7 +67,7 @@ public class ManageApiController implements ManageApi {
 		if (body.getId() != null && body.getId() > 0) {
 			Organization existingOrg = pacerDao.getById(body.getId());
 			if (existingOrg != null) {
-				existingOrg.setName(body.getName());
+				existingOrg.setProviderName(body.getProviderName());
 				existingOrg.setIdentifier(body.getIdentifier());
 				existingOrg.setPacerSource(body.getPacerSource());
 
