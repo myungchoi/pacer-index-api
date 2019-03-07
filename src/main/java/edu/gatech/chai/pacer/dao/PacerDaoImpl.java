@@ -269,7 +269,7 @@ public class PacerDaoImpl implements PacerDao {
 				Organization organization = setOrganizationData(rs);
 				organizationList.add(organization);
 			}
-			logger.info(organizationList.size() + " filter data obtained");
+			logger.info(organizationList.size() + " organization(s) data obtained");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
@@ -368,7 +368,7 @@ public class PacerDaoImpl implements PacerDao {
 			organizations.setList(orgList);
 			organizations.setCount(orgList.size());
 			organizations.setCreated(OffsetDateTime.now());
-			logger.info("organization with provider name= (" + providerName + "), identifier= (" + identifier + ") selected");
+			logger.info(orgList.size()+" organization(s) with provider name= (" + providerName + "), identifier= (" + identifier + ") selected");
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
