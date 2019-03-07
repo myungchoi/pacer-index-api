@@ -158,7 +158,7 @@
         } ],
         "responses" : {
           "200" : {
-            "description" : "a organization",
+            "description" : "An organization",
             "content" : {
               "application/json" : {
                 "schema" : {
@@ -166,6 +166,9 @@
                 }
               }
             }
+          },
+          "204" : {
+            "description" : "Content not found"
           },
           "400" : {
             "description" : "invalid input, object invalid"
