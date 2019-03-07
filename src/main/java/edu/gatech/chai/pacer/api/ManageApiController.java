@@ -58,7 +58,7 @@ public class ManageApiController implements ManageApi {
 			@ApiParam(value = "Organization info to add") @Valid @RequestBody Organization body) {
 		String accept = request.getHeader("Accept");
 
-		Organizations existingOrgs = pacerDao.getByIdentifier(body.getIdentifier());
+		Organizations existingOrgs = pacerDao.getByProviderNameAndIdentifier(body.getProviderName(), body.getIdentifier());
 		if (existingOrgs.getCount() > 0) {
 			// This is error.
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -71,6 +71,7 @@ public class ManageApiController implements ManageApi {
 				existingOrg.setIdentifier(body.getIdentifier());
 				existingOrg.setPacerSource(body.getPacerSource());
 
+				log.debug("POST found existing organization/provider ("+body.getIdentifier()+"/"+body.getProviderName()+")");
 				pacerDao.update(existingOrg);
 
 				HttpHeaders headers = new HttpHeaders();
