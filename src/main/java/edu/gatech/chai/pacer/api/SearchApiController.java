@@ -59,7 +59,7 @@ public class SearchApiController implements SearchApi {
         this.request = request;
     }
 
-    public ResponseEntity<Organizations> searchDecedent(@ApiParam(value = "Name of Organization") @Valid @RequestParam(value = "organization-name", required = false) String organizationName,@ApiParam(value = "Organization ID Set (Type:Id)") @Valid @RequestParam(value = "organization-id", required = false) String organizationId) {
+    public ResponseEntity<Organizations> searchOrganization(@ApiParam(value = "Name of Organization") @Valid @RequestParam(value = "organization-name", required = false) String organizationName,@ApiParam(value = "Organization ID Set (Type:Id)") @Valid @RequestParam(value = "organization-id", required = false) String organizationId) {
         String accept = request.getHeader("Accept");
         
         Organizations organizations = null;

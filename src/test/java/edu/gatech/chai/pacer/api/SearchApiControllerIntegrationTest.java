@@ -40,7 +40,7 @@ public class SearchApiControllerIntegrationTest {
     public void searchDecedentTest() throws Exception {
         String organizationName = "organizationName_example";
         String organizationId = "organizationId_example";
-        ResponseEntity<Organizations> responseEntity = api.searchDecedent(organizationName, organizationId);
+        ResponseEntity<Organizations> responseEntity = api.searchOrganization(organizationName, organizationId);
         assertEquals(HttpStatus.NOT_IMPLEMENTED, responseEntity.getStatusCode());
     }
 

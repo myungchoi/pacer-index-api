@@ -27,9 +27,9 @@
     "/search" : {
       "get" : {
         "tags" : [ "developers" ],
-        "summary" : "searches indexes",
-        "operationId" : "searchDecedent",
-        "description" : "By passing in the appropriate options, you can search for decedent indexes\n",
+        "summary" : "searches PACER indexes",
+        "operationId" : "searchOrganization",
+        "description" : "By passing in the appropriate options, you can search for PACER indexes of the organization\n",
         "parameters" : [ {
           "in" : "query",
           "name" : "organization-name",
