@@ -22,11 +22,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.*;
 import java.util.List;
 import java.util.Map;
-@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-02T03:56:23.582587-05:00[America/New_York]")
+@javax.annotation.Generated(value = "io.swagger.codegen.v3.generators.java.SpringCodegen", date = "2019-03-02T04:06:31.984276-05:00[America/New_York]")
 @Api(value = "search", description = "the search API")
 public interface SearchApi {
 
-    @ApiOperation(value = "searches indexes", nickname = "searchOrganization", notes = "By passing in the appropriate options, you can search for PACER indexes of the organization ", response = Organizations.class, tags={  })
+    @ApiOperation(value = "searches PACER indexes", nickname = "searchOrganization", notes = "By passing in the appropriate options, you can search for PACER indexes of the organization ", response = Organizations.class, tags={  })
     @ApiResponses(value = { 
         @ApiResponse(code = 200, message = "search results matching criteria", response = Organizations.class),
         @ApiResponse(code = 400, message = "bad input parameter") })
