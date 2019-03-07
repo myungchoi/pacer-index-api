@@ -278,15 +278,15 @@
     "schemas" : {
       "Organization" : {
         "type" : "object",
-        "required" : [ "name", "identifier" ],
+        "required" : [ "identifier" ],
         "properties" : {
           "id" : {
             "type" : "integer",
             "example" : 1
           },
-          "name" : {
+          "providerName" : {
             "type" : "string",
-            "example" : "GTMC"
+            "example" : "Patch Adams"
           },
           "identifier" : {
             "type" : "string",
