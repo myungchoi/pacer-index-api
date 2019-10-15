@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import java.net.URI;
 
@@ -60,7 +61,10 @@ public class ManageApiController implements ManageApi {
 	public ManageApiController(ObjectMapper objectMapper, HttpServletRequest request) {
 		this.objectMapper = objectMapper;
 		this.request = request;
-
+	}
+	
+	@PostConstruct
+	public void initialLoad() {
 		// Pre populate the PACER index url for local use if environment variables are
 		// available.
 		String localPacerUrl = System.getenv("LOCAL_PACER_URL");
