@@ -18,6 +18,9 @@ package edu.gatech.chai.pacer.api;
 import edu.gatech.chai.pacer.dao.PacerDaoImpl;
 import edu.gatech.chai.pacer.model.Organization;
 import edu.gatech.chai.pacer.model.Organizations;
+import edu.gatech.chai.pacer.model.PacerSource;
+import edu.gatech.chai.pacer.model.SecurityForPacer;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.*;
 import org.slf4j.Logger;
@@ -42,23 +45,88 @@ public class ManageApiController implements ManageApi {
 	private static final Logger log = LoggerFactory.getLogger(ManageApiController.class);
 
 	private final ObjectMapper objectMapper;
-
 	private final HttpServletRequest request;
 
 	@org.springframework.beans.factory.annotation.Autowired
 	private PacerDaoImpl pacerDao;
 
+	public static String LOCAL_PROVIDER_NAME = "LOCAL PROVIDER";
+	public static String LOCAL_PROVIDER_ID = "LOCAL_PROVIDER|1";
+	public static String LOCAL_PACER_NAME = "LOCAL_PACER";
+	public static String LOCAL_PACER_VERSION = "1.4.3";
+	public static PacerSource.TypeEnum LOCAL_PACER_TYPE = PacerSource.TypeEnum.ECR;
+
 	@org.springframework.beans.factory.annotation.Autowired
 	public ManageApiController(ObjectMapper objectMapper, HttpServletRequest request) {
 		this.objectMapper = objectMapper;
 		this.request = request;
+
+		// Pre populate the PACER index url for local use if environment variables are
+		// available.
+		String localPacerUrl = System.getenv("LOCAL_PACER_URL");
+		String localPacerSecurity = System.getenv("LOCAL_PACER_SECURITY");
+		String localPacerVersion = System.getenv("LOCAL_PACER_VERSION");
+		String localPacerType = System.getenv("LOCAL_PACER_TYPE");
+
+		if (localPacerUrl != null && !localPacerUrl.isEmpty()) {
+			Organizations existingOrgs = pacerDao.getByProviderNameAndIdentifier(
+					ManageApiController.LOCAL_PROVIDER_NAME, ManageApiController.LOCAL_PROVIDER_ID);
+			if (existingOrgs.getCount() == 0) {
+				Organization defaultLocalOrg = new Organization();
+				defaultLocalOrg.setProviderName(ManageApiController.LOCAL_PROVIDER_NAME);
+				defaultLocalOrg.setIdentifier(ManageApiController.LOCAL_PROVIDER_ID);
+
+				PacerSource defaultPacerSource = new PacerSource();
+				defaultPacerSource.setName(ManageApiController.LOCAL_PACER_NAME);
+				defaultPacerSource.setServerUrl(localPacerUrl);
+
+				if (localPacerVersion != null && !localPacerVersion.isEmpty())
+					defaultPacerSource.setVersion(localPacerVersion);
+				else
+					defaultPacerSource.setVersion(ManageApiController.LOCAL_PACER_VERSION);
+
+				if (localPacerType != null && !localPacerType.isEmpty())
+					defaultPacerSource.setType(PacerSource.TypeEnum.fromValue(localPacerType));
+				else
+					defaultPacerSource.setType(ManageApiController.LOCAL_PACER_TYPE);
+
+				SecurityForPacer defaultSecurityPacer = null;
+				if (localPacerSecurity != null && !localPacerSecurity.isEmpty()) {
+					String[] securityInfo = localPacerSecurity.split(" ");
+					if (securityInfo.length == 2) {
+						if ("basic".equalsIgnoreCase(securityInfo[0])) {
+							String[] credential = securityInfo[1].split(":");
+							if (credential.length == 2) {
+								defaultSecurityPacer = new SecurityForPacer();
+								defaultSecurityPacer.setType("basic");
+								defaultSecurityPacer.setUsername(credential[0]);
+								defaultSecurityPacer.setPassword(credential[1]);
+							}
+						} else if ("brearer".equalsIgnoreCase(securityInfo[0])) {
+							defaultSecurityPacer = new SecurityForPacer();
+							defaultSecurityPacer.setType("bearer");
+							defaultSecurityPacer.setUsername(securityInfo[1]);
+						}
+					}
+				}
+				
+				if (defaultSecurityPacer != null) {
+					defaultPacerSource.setSecurity(defaultSecurityPacer);
+				}
+				
+				defaultLocalOrg.setPacerSource(defaultPacerSource);
+				
+				pacerDao.save(defaultLocalOrg);
+			}
+		}
 	}
 
 	public ResponseEntity<Void> addOrganization(
 			@ApiParam(value = "Organization info to add") @Valid @RequestBody Organization body) {
 		String accept = request.getHeader("Accept");
 
-		Organizations existingOrgs = pacerDao.getByProviderNameAndIdentifier(body.getProviderName(), body.getIdentifier());
+		Organizations existingOrgs = pacerDao.getByProviderNameAndIdentifier(body.getProviderName(),
+				body.getIdentifier());
 		if (existingOrgs.getCount() > 0) {
 			// This is error.
 			return new ResponseEntity<>(HttpStatus.CONFLICT);
@@ -71,7 +139,8 @@ public class ManageApiController implements ManageApi {
 				existingOrg.setIdentifier(body.getIdentifier());
 				existingOrg.setPacerSource(body.getPacerSource());
 
-				log.debug("POST found existing organization/provider ("+body.getIdentifier()+"/"+body.getProviderName()+")");
+				log.debug("POST found existing organization/provider (" + body.getIdentifier() + "/"
+						+ body.getProviderName() + ")");
 				pacerDao.update(existingOrg);
 
 				HttpHeaders headers = new HttpHeaders();
@@ -124,9 +193,9 @@ public class ManageApiController implements ManageApi {
 
 	public ResponseEntity<Organizations> getOrganizations() {
 		String accept = request.getHeader("Accept");
-				
+
 		Organizations organizations = pacerDao.get();
-		
+
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_JSON);
 
@@ -137,7 +206,7 @@ public class ManageApiController implements ManageApi {
 			@ApiParam(value = "Organization ID to be updated", required = true) @PathVariable("id") Integer id,
 			@ApiParam(value = "Organization info to add") @Valid @RequestBody Organization body) {
 		String accept = request.getHeader("Accept");
-		
+
 		Organization organization = pacerDao.getById(id);
 		if (organization == null) {
 			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
