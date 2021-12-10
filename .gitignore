@@ -16,3 +16,6 @@ buildNumber.properties
 
 # MacOSX
 .DS_Store
+
+# Visual Studio Code
+.vscode
