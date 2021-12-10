@@ -51,7 +51,7 @@ public class SwaggerDocumentationConfig {
     	List<SecurityScheme> securitySchemes = new ArrayList<SecurityScheme>();
     	securitySchemes.add(new BasicAuth("basicAuth"));
 
-    	return new Docket(DocumentationType.SWAGGER_2)
+    	return new Docket(DocumentationType.OAS_30)
                 .select()
                     .apis(RequestHandlerSelectors.basePackage("edu.gatech.chai.pacer.api"))
                     .build()
