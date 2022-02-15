@@ -52,7 +52,7 @@ public class CustomWebSecurityConfigurerAdapter extends WebSecurityConfigurerAda
 
 		if (user == null) user = "user";
 		if (pass == null) pass = "password";
-		auth.inMemoryAuthentication().withUser(user).password(pass).roles("USER", "ADMIN");
+		auth.inMemoryAuthentication().withUser(user).password(passwordEncoder().encode(pass)).roles("USER", "ADMIN");
 	}
 
 	@Bean
