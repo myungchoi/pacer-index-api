@@ -47,7 +47,14 @@ public class PacerDaoImpl implements PacerDao {
 
 	@Override
 	public Connection connect() {
-		String url = "jdbc:sqlite::resource:PIDB.db";
+		String dbPath = System.getenv("DB_PATH");
+		String url;
+		if (dbPath == null || dbPath.isEmpty()) {
+			url = "jdbc:sqlite::resource:PIDB.db";
+		} else {
+			url = "jdbc:sqlite:" + dbPath.trim();
+		}
+		
 		Connection conn = null;
 		try {
 			Class.forName("org.sqlite.JDBC");
