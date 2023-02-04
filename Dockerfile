@@ -1,6 +1,7 @@
 #Build the Maven project
 #FROM openjdk:8-jdk-alpine as builder
-FROM maven:3.6.3-openjdk-17 as builder
+FROM openjdk:17-jdk as builder
+#FROM maven:3.6.3-openjdk-17 as builder
 COPY . /usr/src/app
 WORKDIR /usr/src/app
 RUN ./mvnw clean package
